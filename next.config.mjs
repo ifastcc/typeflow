@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
+    output: 'export',
     images: {
         unoptimized: true,
+    },
+    // Cloudflare Pages 配置
+    experimental: {
+        esmExternals: true
     },
 };
 

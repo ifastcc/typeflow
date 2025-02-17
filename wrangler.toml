@@ -1,9 +1,16 @@
 [build]
-command = "npm install && npm run build"
-output_directory = ".next"
+command = "npx @cloudflare/next-on-pages@1"
+publish = ".vercel/output/static"
 
 [build.environment]
 NODE_VERSION = "22.0.0"
 
 [site]
-bucket = ".next" 
+bucket = ".vercel/output/static"
+entry-point = "workers-site/index.js"
+
+[env.production]
+name = "typeflow-production"
+
+[env.staging]
+name = "typeflow-staging" 
