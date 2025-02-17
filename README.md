@@ -24,7 +24,31 @@ bun dev
 
 ## 部署到 Cloudflare Pages
 
-要将应用部署到 Cloudflare Pages，请按照以下步骤操作：
+### 方法一：使用 Wrangler CLI 部署
+
+1. 首先安装 Wrangler CLI：
+```bash
+npm install -g wrangler
+```
+
+2. 登录到你的 Cloudflare 账户：
+```bash
+wrangler login
+```
+
+3. 创建 Cloudflare Pages 项目：
+```bash
+wrangler pages project create typeflow --production-branch main --compatibility-flags nodejs_compat
+```
+
+4. 部署到 Cloudflare Pages：
+```bash
+rm -rf .vercel/output/static/* && npm run pages:deploy
+```
+
+部署完成后，Wrangler 会提供一个可访问的 URL。
+
+### 方法二：通过 Cloudflare Dashboard 部署
 
 1. 确保你的代码已经推送到 GitHub 仓库
 
@@ -35,12 +59,15 @@ bun dev
 4. 选择包含你项目的 GitHub 仓库
 
 5. 配置构建设置：
-   - 构建命令：`npm run build`
-   - 构建输出目录：`.next`
-   - Node.js 版本：选择与你的本地开发环境相匹配的版本
+   - 框架预设：选择 "Next.js"
+   - 构建命令：`npm run pages:build`
+   - 构建输出目录：`.vercel/output/static`
+   - Node.js 版本：22.x（或与 package.json 中的 engines 字段匹配的版本）
+   - 兼容性标志：在 "Environment variables" 中添加 `NODE_VERSION=22` 和 `NEXT_USE_NETLIFY_EDGE=true`
 
-6. 环境变量设置（如果需要）：
-   - 在 "Environment variables" 部分添加必要的环境变量
+6. 高级设置：
+   - 在 "Functions" 部分启用 "Node.js 兼容性标志"
+   - 在 "Compatibility Flags" 中添加 `nodejs_compat`
 
 7. 点击 "Save and Deploy"
 
